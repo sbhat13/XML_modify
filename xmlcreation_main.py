@@ -3,9 +3,10 @@ import pymysql
 import boto3
 from botocore.config import Config
 import csv
+import xml.etree.ElementTree as ET
 
 
-s3 = boto3.resource('s3', aws_access_key_id='AKIAQVPPGHAXSTZ5C6MH', aws_secret_access_key='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')
+s3 = boto3.resource('s3', aws_access_key_id='', aws_secret_access_key='')
 obj = s3.Object('ahdatabase', 'testfile.csv')
 obj.download_file('/temp/testfile.csv')
 
@@ -34,11 +35,17 @@ def xml_modify(franchise, ticker, author, note_type, title, link_to_the_resource
     host="ah-franchise-master.c28bjfb7w9es.us-east-1.rds.amazonaws.com"
     port=3306
     dbname="analysthub_master"
-    user="admin"
-    password="AnalystHub1"
+    user=""
+    password=""
     conn = pymysql.connect(host, user=user,port=port,passwd=password, db=dbname)
     temp = pd.read_sql('select Ticker from Franchise_coverage where Franchise_name like %s and Company_name like "Starbucks Corp.";', params={franchise}, con=conn)
     if note_type == "Company Note":
         ## DO THIS
     elif note_type == "Industry Note":
         ## PICK OTHER TEMPLATE && MODIFY 
+return 
+
+
+
+#GET API FOR THE RESOURCE AND DOWNLOAD IN S3 BUCKET
+## SEND IT VIA SFTP
